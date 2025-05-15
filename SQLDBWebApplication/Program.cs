@@ -1,4 +1,5 @@
 using DotnetMirror.ASPNETCORESQLDBWebApplication.Data;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IDAL, DAL>();
 
 var app = builder.Build();
+
+var connectionString = builder.Configuration.GetConnectionString("AzureSQLServerConnection");
+
+services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
